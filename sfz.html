@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>身份证</title>
+    <script src="jquery-3.5.0.min.js"></script>
+    <script src="echarts.min.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <form action="">
+            <div> 普证：<input type="text" name="普证"></div>
+            <div> 邮递证：<input type="text" name="邮递证"></div>
+            <div>异地证：<input type="text" name="异地证"></div>
+            <div>军人证：<input type="text" name="军人证"></div>
+            <div>港澳台证：<input type="text" name="港澳台证"></div>
+            <div>废证：<input type="text" name="废证"></div>
+            
+            <input type="button" value="生成示意图" id="submit">
+        </form>
+        <h4 style="text-align: center;">身份证车间<input type="text" style="width: .18rem;font-weight: bold;font-size: 22px;">产量</h4>
+        <h5><input type="text" style="width: .3rem;font-weight: bold;">年<input type="text" style="width: .3rem;font-weight: bold;">月<input type="text" style="width: .3rem;font-weight: bold;">日</h5>
+    </div>
+    <div class="canvas" style="height: 5rem;">
+        <div id="main"></div>
+    </div>
+    <script>
+        $(function () {
+            $('.canvas').css({display:"block"})
+            $('#submit').click(function () {
+                var obj = {};
+                //循环遍历form表单
+                var str = $('form').serializeArray();
+                let arr1 = [], arr2 = [];
+                str.forEach((item => {
+                    arr1.push(item.name)
+                    arr2.push(Number(item.value))
+                }))
+                var sum=0
+                for(var i=0;i<arr2.length;i++){
+                    sum=sum+arr2[i]
+                } 
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+
+                // 指定图表的配置项和数据
+                option = {
+                    title:{
+                        text:'总产量'+sum+'张'
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        extraCssText: 'transform: rotate(90deg)',  
+                    },
+                    grid: {
+                            top:'10%',
+                            left: '1%',
+                            // right: '1%',
+                            bottom: '1%',
+                            containLabel: true,
+                        },
+                        //直角坐标系 grid 中的 x 轴
+                    yAxis: {
+                        axisLine: {show:true},
+                        name:'张',
+                        type: 'value', //数据
+                        position: 'top', //x 轴的位置【top bottom】
+                        nameGap: 20,
+                        // nameRotate: -90, //坐标轴名字旋转，角度值。
+                        // axisLabel: {  //坐标轴刻度标签的相关设置。
+                        //     rotate: 90 //刻度标签旋转的角度，
+                        // },
+                        // scale: true, //是否是脱离 0 值比例 
+                    },
+                    //直角坐标系 grid 中的 y 轴
+                    xAxis: {
+                        type: 'category',
+                        data: arr1,
+                        // inverse: 'true', //是否是反向坐标轴。
+                        axisLabel: {
+                            rotate: -45
+                        },
+                        axisLabel: {  
+                        interval: 0,  
+                        // rotate:-90,
+                        formatter:function(value)  
+                        {  
+                            var ret = "";//拼接加\n返回的类目项  
+                            var maxLength = 3;//每项显示文字个数  
+                            var valLength = value.length;//X轴类目项的文字个数  
+                            var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数  
+                            if (rowN > 1)//如果类目项的文字大于5,  
+                            {  
+                                for (var i = 0; i < rowN; i++) {  
+                                    var temp = "";//每次截取的字符串  
+                                    var start = i * maxLength;//开始截取的位置  
+                                    var end = start + maxLength;//结束截取的位置  
+                            //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧  
+                                    temp = value.substring(start, end) + "\n";  
+                                    ret += temp; //凭借最终的字符串  
+                                }  
+                                return ret;  
+                            }  
+                            else {  
+                                    return value;  
+                            }  
+                        }  
+                    }
+
+                    },
+                    //系列列表。每个系列通过 type 决定自己的图表类型
+                    series: [{
+                        data: arr2,
+                        type: 'bar',
+                        smooth: true,
+                      
+                        label: {
+                            show: true,
+                            position: 'top',
+                            // rotate: -90,
+                         
+                        },
+                    }]
+                };
+                
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+                window.onresize = myChart.onresize;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+* {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  font-family: '宋体';
+}
+h4{
+  font-size: 22px;
+  text-align: center;
+  line-height: .3rem;
+}
+.container {
+  padding: .1rem;
+  width: calc(100% - .2rem);
+}
+.container div input{
+  border-radius:15px;
+  width: 1.5rem;
+  height: .25rem;
+  font-size: .16rem;
+  text-align: center;
+}
+.container form {
+  line-height: .3rem;
+}
+.container form div{
+ 
+}
+.canvas {
+  width: calc(100% - .1rem);
+  /* height: 6rem; */
+  padding: .1rem;
+  display: none;
+}
+.canvas #main {
+  width: inherit;
+  height: inherit;
+}
+
+ div span{
+  position: relative;
+  /* top: 1%; */
+  right: 5%;
+  font-size: smaller;
+  line-height: 34px;
+  color: darkgrey;
+}
+ h5{
+  font-weight: bold;
+  text-align: center;
+  line-height: .23rem;
+  /* float: left; */
+}
+.date {
+  display:flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+#submit{
+  width: 1rem;
+  height: .3rem;
+line-height: .3rem;
+  font-family: '微软雅黑';
+}
+.container{
+  
+}
